@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
@@ -60,6 +62,23 @@ public class MainActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+    
+    // Print the number that is pressed
+    public void onClickNum (View v){
+    	TextView t = (TextView) this.findViewById(R.id.txtOutput);
+    	Button b = (Button)v;
+    	String value = b.getText().toString();
+    	t.append(value);
+    }
+    
+    // Delete last character
+    public void delete(View v){
+    	TextView t = (TextView) this.findViewById(R.id.txtOutput);
+    	String output = t.getText().toString();
+    	if(output != null && output.length() > 0){
+    		t.setText(output.substring(0,output.length()-1));
+    	}
     }
 
 }
