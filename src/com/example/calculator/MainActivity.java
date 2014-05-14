@@ -1,5 +1,8 @@
 package com.example.calculator;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -11,15 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
-
+	static TextView t;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -47,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -55,26 +57,94 @@ public class MainActivity extends ActionBarActivity {
 
         public PlaceholderFragment() {
         }
-
+        
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+            t = (TextView) rootView.findViewById(R.id.txtOutput);
             return rootView;
         }
     }
     
-    // Print the number that is pressed
-    public void onClickNum (View v){
-    	TextView t = (TextView) this.findViewById(R.id.txtOutput);
+    // Print the button that is pressed
+    public void onClickNum (View v){	
     	Button b = (Button)v;
+    	
+    	// Get and print value
     	String value = b.getText().toString();
     	t.append(value);
     }
     
+    public class OperatorRank{
+    	public char op;
+    	public int rank;
+    	
+    	public OperatorRank(char op,int rank){
+    		this.op = op;
+    		this.rank = rank;
+    	}
+    }
+    
+    public void calculate(View v){  	
+    	// Get and print value
+    	String s = t.getText().toString();
+    	
+    	ArrayList<String> output = new ArrayList<String>();
+    	Stack<String> operators = new Stack<String>();
+    	Character prev = null, curr = null;
+    	int start = 0;
+
+    	
+    	
+    	for(int i=0;i < s.length();i++){
+    		curr = s.charAt(i);
+    		
+    		if(curr == '+' || curr == '-' || curr == '*' || curr == '/'){
+
+    			output.add(s.substring(start, i));
+    			start = i+1;
+    			
+    			if(operators.empty()){ // Stack is empty, push operator
+    				operators.push(curr.toString());
+    				prev = curr;
+    			}else{ //Compare rank ASCII + and - Odd, * and / Even
+    				if(((prev % 2)&(curr % 2)) == 1 || prev == null){ // Same rank
+    					operators.push(curr.toString());
+    					prev=curr;
+    				}else{
+    					while(!operators.empty()){
+    						output.add(operators.pop());
+    					}
+    					prev = null;
+    				}
+    			}
+    			
+    		}else if(i == s.length()-1){
+    			output.add(s.substring(start,s.length()));
+    		}
+    	}
+    	
+    	while(!operators.empty()){
+			output.add(operators.pop());
+		}
+    	
+
+    	StringBuilder sb = new StringBuilder();
+    	for (String str : output)
+    	{
+    	    sb.append(str);
+    	    sb.append(",");
+    	}
+
+    	
+    	t.setText(sb);
+    	
+    }
+    
     // Delete last character
     public void delete(View v){
-    	TextView t = (TextView) this.findViewById(R.id.txtOutput);
     	String output = t.getText().toString();
     	if(output != null && output.length() > 0){
     		t.setText(output.substring(0,output.length()-1));

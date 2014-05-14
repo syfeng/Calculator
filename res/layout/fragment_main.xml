@@ -15,11 +15,14 @@
    
     <Button android:id="@+id/btnLBracket"
         android:text="@string/left_bracket"
-        android:layout_column="0"/>
+        android:layout_column="0"
+        android:onClick="onClickNum"/>
     <Button android:id="@+id/btnRBracket" 
-        android:text="@string/right_bracket"/>
+        android:text="@string/right_bracket"
+        android:onClick="onClickNum"/>
     <Button android:id="@+id/btnPercent"
-        android:text="@string/percent"/>  
+        android:text="@string/percent"
+        android:onClick="onClickNum"/>  
     <Button android:id="@+id/btnDel"
         android:text="@string/delete"
         android:onClick="delete"/>
@@ -33,7 +36,8 @@
         android:text="@string/num9"
         android:onClick="onClickNum"/>
     <Button android:id="@+id/btnDivide"
-        android:text="@string/divide"/>
+        android:text="@string/divide"
+        android:onClick="onClickNum"/>
     <Button android:id="@+id/btn4"
         android:text="@string/num4"
         android:onClick="onClickNum"/>
@@ -44,7 +48,8 @@
         android:text="@string/num6"
         android:onClick="onClickNum"/>
     <Button android:id="@+id/btnMultiply"
-        android:text="@string/multiply"/>
+        android:text="@string/multiply"
+        android:onClick="onClickNum"/>
     <Button android:id="@+id/btn1"
         android:text="@string/num1"
         android:onClick="onClickNum"/>
@@ -55,15 +60,19 @@
         android:text="@string/num3"
         android:onClick="onClickNum"/>
     <Button android:id="@+id/btnSubtract"
-        android:text="@string/subtract"/>    
+        android:text="@string/subtract"
+        android:onClick="onClickNum"/>    
     <Button android:id="@+id/btn0"
         android:text="@string/num0"
         android:onClick="onClickNum"/>
     <Button android:id="@+id/btnDecimal"
-        android:text="@string/decimal"/>
+        android:text="@string/decimal"
+        android:onClick="onClickNum"/>
     <Button android:id="@+id/btnEqual"
-        android:text="@string/equal"/>
+        android:text="@string/equal"
+        android:onClick="calculate"/>
     <Button android:id="@+id/btnAdd"
-        android:text="@string/add"/>
+        android:text="@string/add"
+        android:onClick="onClickNum"/>
 
 </GridLayout>
