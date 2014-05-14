@@ -87,16 +87,11 @@ public class MainActivity extends ActionBarActivity {
     	}
     }
     
-    public void calculate(View v){  	
-    	// Get and print value
-    	String s = t.getText().toString();
-    	
+    public String convertToReversePolish(String s){
     	ArrayList<String> output = new ArrayList<String>();
     	Stack<String> operators = new Stack<String>();
     	Character prev = null, curr = null;
-    	int start = 0;
-
-    	
+    	int start = 0;    	
     	
     	for(int i=0;i < s.length();i++){
     		curr = s.charAt(i);
@@ -110,17 +105,15 @@ public class MainActivity extends ActionBarActivity {
     				operators.push(curr.toString());
     				prev = curr;
     			}else{ //Compare rank ASCII + and - Odd, * and / Even
-    				if(((prev % 2)&(curr % 2)) == 1 || prev == null){ // Same rank
-    					operators.push(curr.toString());
-    					prev=curr;
-    				}else{
+    				if((curr % 2) - (prev % 2) > 0){ //TopStack has higher precedence over current operator
+    					// Pop the stack
     					while(!operators.empty()){
-    						output.add(operators.pop());
-    					}
-    					prev = null;
+	    					output.add(operators.pop());
+	    				}
     				}
+    				operators.push(curr.toString());
+    				prev=curr;
     			}
-    			
     		}else if(i == s.length()-1){
     			output.add(s.substring(start,s.length()));
     		}
@@ -130,16 +123,16 @@ public class MainActivity extends ActionBarActivity {
 			output.add(operators.pop());
 		}
     	
-
-    	StringBuilder sb = new StringBuilder();
-    	for (String str : output)
-    	{
-    	    sb.append(str);
-    	    sb.append(",");
-    	}
-
+    	return output.toString();
+    }
+    
+    public void calculate(View v){  	
+    	// Get and print value
+    	String s = t.getText().toString();
     	
-    	t.setText(sb);
+    	String output = convertToReversePolish(s);
+    	
+    	t.setText(output);
     	
     }
     
@@ -147,7 +140,8 @@ public class MainActivity extends ActionBarActivity {
     public void delete(View v){
     	String output = t.getText().toString();
     	if(output != null && output.length() > 0){
-    		t.setText(output.substring(0,output.length()-1));
+    		//t.setText(output.substring(0,output.length()-1));
+    		t.setText("");
     	}
     }
 
