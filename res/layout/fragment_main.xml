@@ -11,7 +11,8 @@
          android:layout_width="fill_parent"
          android:layout_columnSpan="4"
          android:layout_gravity="fill"
-         android:gravity="right"/>
+         android:gravity="right"
+         android:text="0"/>
    
     <Button android:id="@+id/btnLBracket"
         android:text="@string/left_bracket"

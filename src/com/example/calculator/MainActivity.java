@@ -71,23 +71,27 @@ public class MainActivity extends ActionBarActivity {
     // Print the button that is pressed
     public void onClickNum (View v){	
     	Button b = (Button)v;
-    	
-    	// Get and print value
+    	// Get value of button clicked
     	String value = b.getText().toString();
-    	t.append(value);
-    }
-    
-    public class OperatorRank{
-    	public char op;
-    	public int rank;
     	
-    	public OperatorRank(char op,int rank){
-    		this.op = op;
-    		this.rank = rank;
+    	int currChar = (int)value.charAt(0);
+    	
+    	// Get last inputed character
+    	int lastChar = (int)t.getText().charAt(t.length()-1);
+    	
+    	// If last char is operator and curr char is a number
+    	// or if last char is a number
+    	if((lastChar < 48 && currChar >= 48) || lastChar >= 48){ //ASCII
+    		t.append(value); //Print value
     	}
+    	
     }
     
-    public String convertToReversePolish(String s){
+    
+    public ArrayList<String> convertToReversePolish(String s){
+    	if(s == null || s == ""){
+    		return null;
+    	}
     	ArrayList<String> output = new ArrayList<String>();
     	Stack<String> operators = new Stack<String>();
     	Character prev = null, curr = null;
@@ -123,16 +127,53 @@ public class MainActivity extends ActionBarActivity {
 			output.add(operators.pop());
 		}
     	
-    	return output.toString();
+    	return output;
+    }
+    
+    public String solveReversePolish(ArrayList<String> equation){
+    	Stack<String> stack = new Stack<String>();
+    	String temp = null;
+    	double val1 = 0.0, val2 = 0.0;
+    	
+    	for(int i = 0; i<equation.size();i++){
+    		temp = equation.get(i).toString();
+    		if(temp.equals("+") || temp.equals("-") || temp.equals("*") || temp.equals("/")){	
+				val2 = Double.parseDouble(stack.pop());
+				val1 = Double.parseDouble(stack.pop());
+				stack.push(String.valueOf(operation(temp, val1, val2)));
+    			
+    		}else{
+    			stack.push(temp);	
+    		}
+    	}
+    	
+    	if(stack.size() == 1){
+    		return stack.pop();
+    	}
+
+    	return "ERRPR";
+    }
+    
+    public double operation(String operator, double a, double b){
+    	if(operator.equals("+")){
+    		return a + b;
+    	}else if(operator.equals("-")){
+    		return a - b;
+    	}else if(operator.equals("*")){
+    		return a * b;
+    	}else if(operator.equals("/")){
+    		return a / b;
+    	}
+    	return 0;
     }
     
     public void calculate(View v){  	
     	// Get and print value
     	String s = t.getText().toString();
     	
-    	String output = convertToReversePolish(s);
+    	ArrayList<String> equation = convertToReversePolish(s);
     	
-    	t.setText(output);
+    	t.setText(solveReversePolish(equation));
     	
     }
     
@@ -141,7 +182,7 @@ public class MainActivity extends ActionBarActivity {
     	String output = t.getText().toString();
     	if(output != null && output.length() > 0){
     		//t.setText(output.substring(0,output.length()-1));
-    		t.setText("");
+    		t.setText("0");
     	}
     }
 
