@@ -1,5 +1,6 @@
 package com.example.calculator;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -139,13 +140,13 @@ public class MainActivity extends ActionBarActivity {
     public String solveReversePolish(ArrayList<String> equation){
     	Stack<String> stack = new Stack<String>();
     	String temp = null;
-    	double val1 = 0.0, val2 = 0.0;
+    	String val1, val2;
     	
     	for(int i = 0; i<equation.size();i++){
     		temp = equation.get(i).toString();
     		if(temp.equals("+") || temp.equals("-") || temp.equals("*") || temp.equals("/")){	
-				val2 = Double.parseDouble(stack.pop());
-				val1 = Double.parseDouble(stack.pop());
+				val2 = stack.pop();
+				val1 = stack.pop();
 				stack.push(String.valueOf(operation(temp, val1, val2)));
     			
     		}else{
@@ -160,17 +161,20 @@ public class MainActivity extends ActionBarActivity {
     	return "ERRPR";
     }
     
-    public double operation(String operator, double a, double b){
+    public BigDecimal operation(String operator, String val1, String val2){
+    	BigDecimal a = new BigDecimal(val1);
+    	BigDecimal b = new BigDecimal(val2);
+    	
     	if(operator.equals("+")){
-    		return a + b;
+    		return a.add(b);
     	}else if(operator.equals("-")){
-    		return a - b;
+    		return a.subtract(b);
     	}else if(operator.equals("*")){
-    		return a * b;
+    		return a.multiply(b);
     	}else if(operator.equals("/")){
-    		return a / b;
+    		return a.divide(b);
     	}
-    	return 0;
+    	return null;
     }
     
     public void calculate(View v){  	
