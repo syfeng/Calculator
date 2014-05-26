@@ -19,10 +19,12 @@ import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
 	static TextView t;
+	public Boolean dot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dot = false;
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -79,11 +81,15 @@ public class MainActivity extends ActionBarActivity {
     	// Get last inputed character
     	int lastChar = (int)t.getText().charAt(t.length()-1);
     	
-    	// If last char is operator and curr char is a number
-    	// or if last char is a number
-    	if((lastChar < 48 && currChar >= 48) || lastChar >= 48){ //ASCII
-    		t.append(value); //Print value
-    	}
+    	// If current value is 0 and user did not input an operator
+		if(lastChar == 48 && t.length() == 1 && currChar >= 48){
+			t.setText(value);
+		}else if((lastChar < 48 && currChar >= 48) || lastChar >= 48){
+			// If last char is operator and curr char is a number
+	    	// or if last char is a number
+			t.append(value); //Append value
+		}
+    	
     	
     }
     
