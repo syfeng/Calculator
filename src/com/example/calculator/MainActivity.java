@@ -19,13 +19,16 @@ import android.widget.Toast;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
-	static TextView t;
+	static TextView t, debug;
 	public Boolean dot;
+	public int openBrackets, closeBrackets;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dot = false;
+        openBrackets = 0;
+        closeBrackets = 0;
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -67,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             t = (TextView) rootView.findViewById(R.id.txtOutput);
+            debug = (TextView) rootView.findViewById(R.id.txtDebug);
             return rootView;
         }
     }
@@ -82,16 +86,35 @@ public class MainActivity extends ActionBarActivity {
     	// Get last inputed character
     	int lastChar = (int)t.getText().charAt(t.length()-1);
     	
+    	if(currChar == 40){
+    		openBrackets++;
+    	}else if(currChar == 41){
+    		
+    	}
+    	    	
     	// If current value is 0 and user did not input an operator
-		if(lastChar == 48 && t.length() == 1 && currChar >= 48){
+		if(lastChar == 48 && t.length() == 1 && (currChar >= 48 || currChar == 40)){
 			t.setText(value);
-		}else if((lastChar < 48 && currChar >= 48) || lastChar >= 48){
-			// If last char is operator and curr char is a number
-	    	// or if last char is a number
-			t.append(value); //Append value
+		}else if(printValue(lastChar, currChar)){
+			t.append(value);
 		}
-    	
-    	
+		debug.setText("open " + openBrackets + "close " + closeBrackets);
+}
+    
+    public Boolean printValue(int lastChar, int currChar){
+    	 if(lastChar < 48 && lastChar > 41){
+    		 return false;
+    	 }
+    	 if(currChar == 41){
+    		 if(openBrackets > closeBrackets){
+    			 closeBrackets++;
+    			 return true;
+    		 }else{
+    			 return false;
+    		 }
+    	 }
+    	 
+    	 return true;
     }
     
     
@@ -192,6 +215,9 @@ public class MainActivity extends ActionBarActivity {
     	String output = t.getText().toString();
     	if(output != null && output.length() > 0){
     		//t.setText(output.substring(0,output.length()-1));
+    		openBrackets = 0;
+    		closeBrackets = 0;
+    		debug.setText("open " + openBrackets + "close " + closeBrackets);
     		t.setText("0");
     	}
     }
