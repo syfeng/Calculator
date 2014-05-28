@@ -98,11 +98,10 @@ public class MainActivity extends ActionBarActivity {
 		}else if(printValue(lastChar, currChar)){
 			t.append(value);
 		}
-		debug.setText("open " + openBrackets + "close " + closeBrackets);
 }
     
     public Boolean printValue(int lastChar, int currChar){
-    	 if(lastChar < 48 && lastChar > 41){
+    	 if(lastChar < 48 && lastChar > 41 && currChar < 48 && currChar > 41){
     		 return false;
     	 }
     	 if(currChar == 41){
@@ -217,7 +216,6 @@ public class MainActivity extends ActionBarActivity {
     		//t.setText(output.substring(0,output.length()-1));
     		openBrackets = 0;
     		closeBrackets = 0;
-    		debug.setText("open " + openBrackets + "close " + closeBrackets);
     		t.setText("0");
     	}
     }
