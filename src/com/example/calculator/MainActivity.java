@@ -92,14 +92,21 @@ public class MainActivity extends ActionBarActivity {
     		
     	}
     	    	
-    	// If current value is 0 and user did not input an operator
-		if(lastChar == 48 && t.length() == 1 && (currChar >= 48 || currChar == 40)){
+    	// If current value is 0 and user input a number or an open bracket
+		if((lastChar == 48 && t.length() == 1) && (currChar >=48 || currChar == 40)){
 			t.setText(value);
+		}else if(lastChar == 33){
+			// Deletes error message
+			if(currChar >=48){
+				t.setText(value);
+			}else{
+				t.setText("0" + value);
+			}
 		}else if(printValue(lastChar, currChar)){
 			t.append(value);
 		}
 }
-    
+    // Error checking for valid user inputs
     public Boolean printValue(int lastChar, int currChar){
     	 if(lastChar < 48 && lastChar > 41 && currChar < 48 && currChar > 41){
     		 return false;
@@ -208,6 +215,7 @@ public class MainActivity extends ActionBarActivity {
 	    	
 	    	t.setText(solveReversePolish(equation));
     	}catch(Exception ex){
+    		t.setText("CALCULATION ERROR!");
     		debug.setText(ex.getMessage());
     	}finally{
     	}
