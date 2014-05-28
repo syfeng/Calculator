@@ -88,16 +88,14 @@ public class MainActivity extends ActionBarActivity {
     	
     	if(currChar == 40){
     		openBrackets++;
-    	}else if(currChar == 41){
-    		
     	}
     	    	
     	// If current value is 0 and user input a number or an open bracket
 		if((lastChar == 48 && t.length() == 1) && (currChar >=48 || currChar == 40)){
 			t.setText(value);
-		}else if(lastChar == 33){
+		}else if(lastChar == 33 && currChar != 41){
 			// Deletes error message
-			if(currChar >=48){
+			if(currChar >=48 || currChar == 40){
 				t.setText(value);
 			}else{
 				t.setText("0" + value);

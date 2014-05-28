@@ -9,17 +9,12 @@
     
      <TextView android:id="@+id/txtOutput"
          android:layout_width="fill_parent"
+         android:maxLength="38"
          android:layout_columnSpan="4"
          android:layout_gravity="fill"
          android:gravity="right"
          android:text="0"/>
-     <TextView android:id="@+id/txtDebug"
-         android:layout_width="fill_parent"
-         android:layout_columnSpan="4"
-         android:layout_gravity="fill"
-         android:gravity="right"
-         android:text="Debug"/>
-   
+
     <Button android:id="@+id/btnLBracket"
         android:text="@string/left_bracket"
         android:layout_column="0"
@@ -81,5 +76,12 @@
     <Button android:id="@+id/btnAdd"
         android:text="@string/add"
         android:onClick="onClickNum"/>
+    
+    <TextView android:id="@+id/txtDebug"
+         android:layout_columnSpan="4"
+         android:layout_gravity="center"
+         android:gravity="center"
+         android:text="Debug"/>
 
 </GridLayout>
+
