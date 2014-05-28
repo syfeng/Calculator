@@ -180,7 +180,7 @@ public class MainActivity extends ActionBarActivity {
     		return stack.pop();
     	}
 
-    	return "ERRPR";
+    	return "ERROR";
     }
     
     public BigDecimal operation(String operator, String val1, String val2){
@@ -200,12 +200,17 @@ public class MainActivity extends ActionBarActivity {
     }
     
     public void calculate(View v){  	
-    	// Get and print value
-    	String s = t.getText().toString();
-    	
-    	ArrayList<String> equation = convertToReversePolish(s);
-    	
-    	t.setText(solveReversePolish(equation));
+    	try{
+	    	// Get and print value
+	    	String s = t.getText().toString();
+	    	
+	    	ArrayList<String> equation = convertToReversePolish(s);
+	    	
+	    	t.setText(solveReversePolish(equation));
+    	}catch(Exception ex){
+    		debug.setText(ex.getMessage());
+    	}finally{
+    	}
     	
     }
     
